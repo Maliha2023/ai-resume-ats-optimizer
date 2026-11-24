@@ -1,0 +1,6 @@
+{
+  "name": "AI Resume & ATS Optimizer Pro",
+  "description": "Engineering-grade ATS resume analyzer, keyword gap detector, actionable rewrite advisor, and tailored mock interview generator powered by Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
