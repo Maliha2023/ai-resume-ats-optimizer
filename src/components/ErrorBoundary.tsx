@@ -45,7 +45,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       <div
         role="alert"
         data-testid="error-boundary-fallback"
-        className="flex min-h-[280px] items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:text-[#E6EDF3]"
+        className="flex min-h-[280px] items-center justify-center rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-6 text-slate-900 shadow-[0_1px_3px_rgba(91,33,182,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:text-[#E6EDF3]"
       >
         <div className="max-w-md text-center">
           <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-500/15 dark:text-rose-400">
@@ -58,7 +58,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             Your resume and job description stay private in your browser. You can safely reset this view without losing the workspace.
           </p>
           {this.state.errorMessage && (
-            <p className="mt-3 rounded-lg border border-slate-200/80 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-600 dark:border-[#1E293B] dark:bg-[#0B0F17] dark:text-[#94A3B8]">
+            <p className="mt-3 rounded-lg border border-purple-200/80 bg-[#F5F2FF] px-3 py-2 font-mono text-xs text-slate-600 dark:border-[#1E293B] dark:bg-[#0B0F17] dark:text-[#94A3B8]">
               {this.state.errorMessage}
             </p>
           )}
@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <button
               type="button"
               onClick={this.handleReset}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-[#1D4ED8] dark:bg-blue-500 dark:hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#6D28D9] px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-[#5B21B6] dark:bg-violet-500 dark:hover:bg-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Recover View</span>

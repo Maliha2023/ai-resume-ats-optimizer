@@ -237,7 +237,7 @@ export default function App() {
   return (
     <div
       id="top"
-      className="flex min-h-screen flex-col bg-[#F8FAFC] text-slate-900 transition-colors duration-200 dark:bg-[#0B0F17] dark:text-[#E6EDF3]"
+      className="flex min-h-screen flex-col bg-gradient-to-b from-[#F5F2FF] via-[#F2EDFF] to-[#ECE5FF]/85 text-[#1E1B2E] transition-colors duration-200 dark:bg-none dark:bg-[#0B0F17] dark:text-[#E6EDF3]"
     >
       <TopBar
         theme={theme}
@@ -333,8 +333,8 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="border-t border-slate-200/80 bg-white/70 transition-colors duration-200 dark:border-[#1E293B] dark:bg-[#0B0F17]">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8 dark:text-[#64748B]">
+      <footer className="border-t border-purple-200/75 bg-[#FAF8FF]/80 transition-colors duration-200 dark:border-[#1E293B] dark:bg-[#0B0F17]">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs text-slate-600 sm:px-6 lg:px-8 dark:text-[#64748B]">
           <span>AI Resume &amp; ATS Optimizer Pro</span>
           <span>Universal ATS benchmarking across every profession &amp; industry</span>
         </div>

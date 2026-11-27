@@ -55,9 +55,9 @@ export function MissingKeywordsCard({
     <section
       id="keywords"
       aria-labelledby="keywords-heading"
-      className="scroll-mt-20 rounded-xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
+      className="scroll-mt-20 rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-5 shadow-[0_1px_3px_rgba(91,33,182,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-4 dark:border-[#1E293B]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-purple-100 pb-4 dark:border-[#1E293B]">
         <div>
           <h2 id="keywords-heading" className="text-lg font-semibold text-slate-900 dark:text-[#F0F6FC]">
             Industry-Specific Missing Keywords
@@ -76,7 +76,7 @@ export function MissingKeywordsCard({
         <div
           role="group"
           aria-label="Filter missing keywords by skill type"
-          className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100/80 p-1 dark:border-[#1E293B] dark:bg-[#0B0F17]"
+          className="flex items-center gap-1 rounded-lg border border-purple-200/80 bg-[#F1ECFF] p-1 dark:border-[#1E293B] dark:bg-[#0B0F17]"
         >
           {SKILL_FILTERS.map((opt) => {
             const active = skillFilter === opt.value;
@@ -86,9 +86,9 @@ export function MissingKeywordsCard({
                 type="button"
                 onClick={() => setSkillFilter(opt.value)}
                 aria-pressed={active}
-                className={`rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] ${
+                className={`rounded-md px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9] ${
                   active
-                    ? 'bg-white text-slate-900 shadow-xs dark:bg-[#1E293B] dark:text-[#F0F6FC] dark:shadow-none'
+                    ? 'bg-[#FCFBFF] text-slate-900 shadow-xs dark:bg-[#1E293B] dark:text-[#F0F6FC] dark:shadow-none'
                     : 'text-slate-600 hover:text-slate-900 dark:text-[#94A3B8] dark:hover:text-[#E6EDF3]'
                 }`}
               >
@@ -125,14 +125,14 @@ export function MissingKeywordsCard({
                   type="button"
                   onClick={() => handleSelectAndCopy(item)}
                   aria-pressed={isSelected}
-                  className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] ${
+                  className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9] ${
                     isCritical
                       ? isSelected
                         ? 'border-rose-400 bg-rose-100 text-rose-900 dark:border-rose-400 dark:bg-rose-500/25 dark:text-rose-100'
                         : 'border-rose-200 bg-rose-50 text-rose-700 hover:border-rose-300 hover:bg-rose-100/80 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-200 dark:hover:border-rose-400 dark:hover:bg-rose-500/20'
                       : isSelected
-                        ? 'border-blue-400 bg-blue-100 text-blue-900 dark:border-blue-400 dark:bg-blue-500/25 dark:text-blue-100'
-                        : 'border-blue-200 bg-blue-50/90 text-[#1D4ED8] hover:border-blue-300 hover:bg-blue-100/80 dark:border-blue-400/35 dark:bg-blue-500/15 dark:text-blue-200 dark:hover:border-blue-400 dark:hover:bg-blue-500/25'
+                        ? 'border-purple-400 bg-purple-100 text-purple-900 dark:border-violet-400 dark:bg-violet-500/25 dark:text-violet-100'
+                        : 'border-purple-200 bg-purple-50/90 text-[#6D28D9] hover:border-purple-300 hover:bg-purple-100/80 dark:border-violet-400/35 dark:bg-violet-500/15 dark:text-violet-200 dark:hover:border-violet-400 dark:hover:bg-violet-500/25'
                   }`}
                 >
                   {isCritical ? (
@@ -142,7 +142,7 @@ export function MissingKeywordsCard({
                     />
                   ) : (
                     <PlusCircle
-                      className="h-3.5 w-3.5 shrink-0 text-[#2563EB] dark:text-blue-400"
+                      className="h-3.5 w-3.5 shrink-0 text-[#6D28D9] dark:text-violet-400"
                       aria-hidden="true"
                     />
                   )}
@@ -162,24 +162,24 @@ export function MissingKeywordsCard({
 
           {/* Placement Context for Selected Keyword */}
           {activeItem && (
-            <div className="mt-4 flex flex-col gap-1 border-t border-slate-200/80 pt-4 text-sm dark:border-[#1E293B]">
+            <div className="mt-4 flex flex-col gap-1 border-t border-purple-100 pt-4 text-sm dark:border-[#1E293B]">
               <div className="flex flex-wrap items-center gap-2 text-xs">
                 <span className="font-mono font-semibold text-slate-900 dark:text-[#F0F6FC]">
                   {activeItem.keyword}
                 </span>
-                <span aria-hidden="true" className="text-slate-300 dark:text-[#475569]">
+                <span aria-hidden="true" className="text-purple-300 dark:text-[#475569]">
                   ·
                 </span>
                 <span
                   className={
                     activeItem.importance === 'Critical'
                       ? 'font-medium text-rose-600 dark:text-rose-400'
-                      : 'font-medium text-[#2563EB] dark:text-blue-400'
+                      : 'font-medium text-[#6D28D9] dark:text-violet-400'
                   }
                 >
                   {activeItem.importance} Priority
                 </span>
-                <span aria-hidden="true" className="text-slate-300 dark:text-[#475569]">
+                <span aria-hidden="true" className="text-purple-300 dark:text-[#475569]">
                   ·
                 </span>
                 <span className="text-slate-600 dark:text-[#94A3B8]">
@@ -187,7 +187,7 @@ export function MissingKeywordsCard({
                 </span>
                 {copiedKeyword === activeItem.keyword && (
                   <>
-                    <span aria-hidden="true" className="text-slate-300 dark:text-[#475569]">
+                    <span aria-hidden="true" className="text-purple-300 dark:text-[#475569]">
                       ·
                     </span>
                     <span className="font-medium text-emerald-600 dark:text-emerald-400">
@@ -206,7 +206,7 @@ export function MissingKeywordsCard({
 
       {/* Matched Keywords (clean unboxed inline text) */}
       {matchedKeywords.length > 0 && (
-        <div className="mt-5 border-t border-slate-200/80 pt-4 dark:border-[#1E293B]">
+        <div className="mt-5 border-t border-purple-100 pt-4 dark:border-[#1E293B]">
           <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
             <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span>Matched Keywords ({matchedKeywords.length})</span>

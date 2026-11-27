@@ -30,10 +30,10 @@ export function LoadingDashboard({ targetIndustry }: LoadingDashboardProps) {
       className="space-y-5"
     >
       {/* Active Stage Progress */}
-      <div className="rounded-xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
-        <div className="flex items-center gap-3 border-b border-slate-200/80 pb-4 dark:border-[#1E293B]">
+      <div className="rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-6 shadow-[0_1px_3px_rgba(91,33,182,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
+        <div className="flex items-center gap-3 border-b border-purple-100 pb-4 dark:border-[#1E293B]">
           <Loader2
-            className="h-5 w-5 shrink-0 animate-spin text-[#2563EB] dark:text-blue-400"
+            className="h-5 w-5 shrink-0 animate-spin text-[#6D28D9] dark:text-violet-400"
             aria-hidden="true"
           />
           <div>
@@ -68,7 +68,7 @@ export function LoadingDashboard({ targetIndustry }: LoadingDashboardProps) {
                   />
                 ) : current ? (
                   <Loader2
-                    className="h-3.5 w-3.5 shrink-0 animate-spin text-[#2563EB] dark:text-blue-400"
+                    className="h-3.5 w-3.5 shrink-0 animate-spin text-[#6D28D9] dark:text-violet-400"
                     aria-hidden="true"
                   />
                 ) : (
@@ -87,29 +87,29 @@ export function LoadingDashboard({ targetIndustry }: LoadingDashboardProps) {
       </div>
 
       {/* Geometry-matched Skeleton Cards */}
-      <div className="rounded-xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
+      <div className="rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-6 shadow-[0_1px_3px_rgba(91,33,182,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
         <div className="flex flex-col items-center gap-6 sm:flex-row">
-          <div className="h-[148px] w-[148px] shrink-0 animate-pulse rounded-full border-[10px] border-slate-200 bg-slate-50 dark:border-[#1E293B] dark:bg-[#0B0F17]" />
+          <div className="h-[148px] w-[148px] shrink-0 animate-pulse rounded-full border-[10px] border-purple-200/80 bg-[#F5F2FF] dark:border-[#1E293B] dark:bg-[#0B0F17]" />
           <div className="w-full space-y-3">
-            <div className="h-4 w-3/4 animate-pulse rounded bg-slate-200/80 dark:bg-[#1E293B]" />
-            <div className="h-4 w-1/2 animate-pulse rounded bg-slate-200/80 dark:bg-[#1E293B]" />
+            <div className="h-4 w-3/4 animate-pulse rounded bg-purple-200/60 dark:bg-[#1E293B]" />
+            <div className="h-4 w-1/2 animate-pulse rounded bg-purple-200/60 dark:bg-[#1E293B]" />
             <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="h-6 animate-pulse rounded bg-slate-200/70 dark:bg-[#1E293B]" />
-              <div className="h-6 animate-pulse rounded bg-slate-200/70 dark:bg-[#1E293B]" />
-              <div className="h-6 animate-pulse rounded bg-slate-200/70 dark:bg-[#1E293B]" />
-              <div className="h-6 animate-pulse rounded bg-slate-200/70 dark:bg-[#1E293B]" />
+              <div className="h-6 animate-pulse rounded bg-purple-100/90 dark:bg-[#1E293B]" />
+              <div className="h-6 animate-pulse rounded bg-purple-100/90 dark:bg-[#1E293B]" />
+              <div className="h-6 animate-pulse rounded bg-purple-100/90 dark:bg-[#1E293B]" />
+              <div className="h-6 animate-pulse rounded bg-purple-100/90 dark:bg-[#1E293B]" />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="space-y-3 rounded-xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
-        <div className="h-5 w-48 animate-pulse rounded bg-slate-200/80 dark:bg-[#1E293B]" />
+      <div className="space-y-3 rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-6 shadow-[0_1px_3px_rgba(91,33,182,0.06)] dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none">
+        <div className="h-5 w-48 animate-pulse rounded bg-purple-200/60 dark:bg-[#1E293B]" />
         <div className="flex flex-wrap gap-2">
-          <div className="h-9 w-24 animate-pulse rounded-full bg-slate-200/75 dark:bg-[#1E293B]" />
-          <div className="h-9 w-32 animate-pulse rounded-full bg-slate-200/75 dark:bg-[#1E293B]" />
-          <div className="h-9 w-28 animate-pulse rounded-full bg-slate-200/75 dark:bg-[#1E293B]" />
-          <div className="h-9 w-36 animate-pulse rounded-full bg-slate-200/75 dark:bg-[#1E293B]" />
+          <div className="h-9 w-24 animate-pulse rounded-full bg-purple-100/90 dark:bg-[#1E293B]" />
+          <div className="h-9 w-32 animate-pulse rounded-full bg-purple-100/90 dark:bg-[#1E293B]" />
+          <div className="h-9 w-28 animate-pulse rounded-full bg-purple-100/90 dark:bg-[#1E293B]" />
+          <div className="h-9 w-36 animate-pulse rounded-full bg-purple-100/90 dark:bg-[#1E293B]" />
         </div>
       </div>
     </div>

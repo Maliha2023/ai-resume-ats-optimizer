@@ -39,9 +39,9 @@ export function InterviewQuestionsCard({
     <section
       id="interview"
       aria-labelledby="interview-heading"
-      className="scroll-mt-20 rounded-xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
+      className="scroll-mt-20 rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-5 shadow-[0_1px_3px_rgba(91,33,182,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-200/80 pb-4 dark:border-[#1E293B]">
+      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-purple-100 pb-4 dark:border-[#1E293B]">
         <div>
           <h2 id="interview-heading" className="text-lg font-semibold text-slate-900 dark:text-[#F0F6FC]">
             Tailored Interview Questions
@@ -59,7 +59,7 @@ export function InterviewQuestionsCard({
 
       <ol
         data-testid="interview-questions-list"
-        className="mt-2 divide-y divide-slate-200/80 dark:divide-[#1E293B]"
+        className="mt-2 divide-y divide-purple-100 dark:divide-[#1E293B]"
       >
         {questions.map((item, idx) => {
           const isExpanded = Boolean(expandedIndices[idx]);
@@ -68,14 +68,14 @@ export function InterviewQuestionsCard({
               <div className="flex items-start gap-3.5">
                 <span
                   aria-hidden="true"
-                  className="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[#2563EB] tabular-nums dark:text-blue-400"
+                  className="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[#6D28D9] tabular-nums dark:text-violet-400"
                 >
                   Q{idx + 1}
                 </span>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-[#94A3B8]">
-                    <span className="font-medium text-[#2563EB] dark:text-blue-300">
+                    <span className="font-medium text-[#6D28D9] dark:text-violet-300">
                       {item.category}
                     </span>
                     <span aria-hidden="true">·</span>
@@ -91,7 +91,7 @@ export function InterviewQuestionsCard({
                       type="button"
                       onClick={() => toggleIndex(idx)}
                       aria-expanded={isExpanded}
-                      className="inline-flex min-h-[32px] items-center gap-1.5 text-xs font-medium text-[#2563EB] transition-colors duration-150 hover:text-[#1D4ED8] dark:text-blue-400 dark:hover:text-blue-300 focus-visible:outline-none focus-visible:underline"
+                      className="inline-flex min-h-[32px] items-center gap-1.5 text-xs font-medium text-[#6D28D9] transition-colors duration-150 hover:text-[#5B21B6] dark:text-violet-400 dark:hover:text-violet-300 focus-visible:outline-none focus-visible:underline"
                     >
                       <ChevronDown
                         className={`h-3.5 w-3.5 transition-transform duration-150 ${
@@ -123,7 +123,7 @@ export function InterviewQuestionsCard({
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-3.5 space-y-3 rounded-lg border border-slate-200/90 bg-slate-50/80 p-4 text-xs leading-relaxed dark:border-[#1E293B] dark:bg-[#0B0F17]">
+                    <div className="mt-3.5 space-y-3 rounded-lg border border-purple-200/75 bg-[#F5F2FF]/80 p-4 text-xs leading-relaxed dark:border-[#1E293B] dark:bg-[#0B0F17]">
                       {item.whyAsked && (
                         <div>
                           <span className="font-medium text-slate-500 dark:text-[#94A3B8]">
@@ -137,7 +137,7 @@ export function InterviewQuestionsCard({
 
                       {item.strongAnswerTips.length > 0 && (
                         <div>
-                          <span className="font-semibold text-[#2563EB] dark:text-blue-400">
+                          <span className="font-semibold text-[#6D28D9] dark:text-violet-400">
                             Strong answer talking points:
                           </span>
                           <ul className="mt-1.5 space-y-1.5 text-slate-800 dark:text-[#E6EDF3]">
@@ -145,7 +145,7 @@ export function InterviewQuestionsCard({
                               <li key={tipIdx} className="flex items-start gap-2">
                                 <span
                                   aria-hidden="true"
-                                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2563EB] dark:bg-blue-400"
+                                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6D28D9] dark:bg-violet-400"
                                 />
                                 <span>{tip}</span>
                               </li>

@@ -17,6 +17,13 @@ import {
   getDemoProfileForIndustry,
   resolveTargetIndustryLabel,
 } from '../data/demoData';
+import {
+  MAX_PDF_FILE_BYTES,
+  MAX_TEXT_FILE_BYTES,
+  detectResumeFileKind,
+  reconstructPdfPageLines,
+  validateResumeFile,
+} from './resumeFileParser';
 
 test('validateInputs flags empty, short, and missing custom industry inputs accurately', () => {
   const emptyErrors = validateInputs('', '   ');
@@ -199,4 +206,50 @@ test('classifyApiError maps missing API keys, HTTP 429 rate limits, auth errors,
 
   const networkError = classifyApiError(null);
   assert.equal(networkError.code, 'NETWORK_ERROR');
+});
+
+test('resumeFileParser validates PDF/text uploads and reconstructs PDF lines cleanly', () => {
+  assert.equal(detectResumeFileKind('alex_cv.PDF', ''), 'pdf');
+  assert.equal(detectResumeFileKind('resume', 'application/pdf'), 'pdf');
+  assert.equal(detectResumeFileKind('resume.md', 'text/markdown'), 'text');
+  assert.equal(detectResumeFileKind('photo.png', 'image/png'), 'unsupported');
+
+  assert.deepEqual(
+    validateResumeFile({ name: 'cv.pdf', type: 'application/pdf', size: 1024 * 1024 }),
+    { ok: true, kind: 'pdf' }
+  );
+
+  const oversizedPdf = validateResumeFile({
+    name: 'huge.pdf',
+    type: 'application/pdf',
+    size: MAX_PDF_FILE_BYTES + 1,
+  });
+  assert.equal(oversizedPdf.ok, false);
+
+  const oversizedTxt = validateResumeFile({
+    name: 'huge.txt',
+    type: 'text/plain',
+    size: MAX_TEXT_FILE_BYTES + 1,
+  });
+  assert.equal(oversizedTxt.ok, false);
+
+  const unsupported = validateResumeFile({
+    name: 'avatar.jpg',
+    type: 'image/jpeg',
+    size: 5000,
+  });
+  assert.equal(unsupported.ok, false);
+
+  const reconstructed = reconstructPdfPageLines([
+    { str: 'Maya Patel', transform: [1, 0, 0, 1, 72, 740], hasEOL: true },
+    { str: 'Digital Marketing Manager', transform: [1, 0, 0, 1, 72, 720], hasEOL: false },
+    { str: '| SEO', transform: [1, 0, 0, 1, 210, 720], hasEOL: true },
+    { str: 'EXPERIENCE', transform: [1, 0, 0, 1, 72, 690] },
+    { str: 'Scaled MQLs by 48%', transform: [1, 0, 0, 1, 72, 672] },
+  ]);
+
+  assert.equal(
+    reconstructed,
+    'Maya Patel\nDigital Marketing Manager | SEO\nEXPERIENCE\nScaled MQLs by 48%'
+  );
 });

@@ -50,10 +50,10 @@ export function EmptyDashboard({
     <section
       aria-label="AI Results Dashboard Empty State"
       data-testid="empty-dashboard"
-      className="flex h-full flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-colors duration-200 sm:p-8 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
+      className="flex h-full flex-col justify-between rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-6 shadow-[0_1px_3px_rgba(91,33,182,0.06)] transition-colors duration-200 sm:p-8 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
     >
       <div>
-        <p className="text-xs font-semibold text-[#2563EB] dark:text-blue-400">
+        <p className="text-xs font-semibold text-[#6D28D9] dark:text-violet-400">
           AI Results Dashboard · {selectedIndustryLabel}
         </p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 dark:text-[#F0F6FC]">
@@ -65,7 +65,7 @@ export function EmptyDashboard({
           profile to run a full ATS evaluation.
         </p>
 
-        <ol className="mt-7 divide-y divide-slate-200/80 border-y border-slate-200/80 dark:divide-[#1E293B] dark:border-[#1E293B]">
+        <ol className="mt-7 divide-y divide-purple-100 border-y border-purple-100 dark:divide-[#1E293B] dark:border-[#1E293B]">
           {CAPABILITIES.map((cap) => (
             <li
               key={cap.index}
@@ -74,7 +74,7 @@ export function EmptyDashboard({
             >
               <span
                 aria-hidden="true"
-                className="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[#2563EB] tabular-nums dark:text-blue-400"
+                className="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[#6D28D9] tabular-nums dark:text-violet-400"
               >
                 {cap.index}.
               </span>
@@ -96,7 +96,7 @@ export function EmptyDashboard({
           <button
             type="button"
             onClick={onAnalyze}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-semibold text-white shadow-sm whitespace-nowrap transition-colors duration-150 hover:bg-[#1D4ED8] dark:bg-blue-500 dark:hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-[#6D28D9] px-5 py-2.5 text-sm font-semibold text-white shadow-sm whitespace-nowrap transition-colors duration-150 hover:bg-[#5B21B6] dark:bg-violet-500 dark:hover:bg-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]"
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
             <span>Analyze Resume (AI)</span>
@@ -105,9 +105,9 @@ export function EmptyDashboard({
           <button
             type="button"
             onClick={onLoadDemo}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-800 shadow-2xs whitespace-nowrap transition-colors duration-150 hover:border-blue-300 hover:bg-blue-50/70 hover:text-[#2563EB] dark:border-[#2A3A52] dark:bg-[#162033] dark:text-[#F0F6FC] dark:shadow-none dark:hover:border-blue-400/60 dark:hover:bg-[#1B263B] dark:hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-purple-200/90 bg-[#F5F2FF] px-4 py-2.5 text-sm font-medium text-slate-800 shadow-2xs whitespace-nowrap transition-colors duration-150 hover:border-purple-300 hover:bg-purple-100/70 hover:text-[#6D28D9] dark:border-[#2A3A52] dark:bg-[#162033] dark:text-[#F0F6FC] dark:shadow-none dark:hover:border-violet-400/60 dark:hover:bg-[#1B263B] dark:hover:text-violet-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]"
           >
-            <FileCode2 className="h-4 w-4 text-[#2563EB] dark:text-blue-400" aria-hidden="true" />
+            <FileCode2 className="h-4 w-4 text-[#6D28D9] dark:text-violet-400" aria-hidden="true" />
             <span>Load {sampleRoleLabel} Demo</span>
           </button>
         )}

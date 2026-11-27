@@ -11,6 +11,10 @@ import {
 } from 'lucide-react';
 import { INDUSTRY_OPTIONS } from '../data/demoData';
 import type { IndustryId, LocalDiagnostics, ValidationErrors } from '../types/ats';
+import {
+  extractTextFromPdfArrayBuffer,
+  validateResumeFile,
+} from '../utils/resumeFileParser';
 
 interface InputPaneProps {
   selectedIndustry: IndustryId;
@@ -51,21 +55,37 @@ export function InputPane({
 }: InputPaneProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isParsingFile, setIsParsingFile] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
 
   const hasAnyInput = jobDescription.trim().length > 0 || resumeText.trim().length > 0;
 
-  const readTextFile = (file: File) => {
+  const processResumeFile = async (file: File) => {
     setFileError(null);
-    const validExt = /\.(txt|md|markdown|json|rtf)$/i.test(file.name);
-    if (!validExt && !file.type.startsWith('text/')) {
-      setFileError('Please upload a plain-text resume (.txt or .md) or paste text directly.');
+    const check = validateResumeFile(file);
+    if (!check.ok) {
+      setFileError(check.error);
       return;
     }
-    if (file.size > 512 * 1024) {
-      setFileError('File is too large (max 512 KB for text resumes).');
+
+    if (check.kind === 'pdf') {
+      setIsParsingFile(true);
+      try {
+        const buffer = await file.arrayBuffer();
+        const extractedText = await extractTextFromPdfArrayBuffer(buffer);
+        onResumeFileLoaded(extractedText, file.name);
+      } catch (err: unknown) {
+        setFileError(
+          err instanceof Error
+            ? err.message
+            : 'Could not extract text from this PDF file.'
+        );
+      } finally {
+        setIsParsingFile(false);
+      }
       return;
     }
+
     const reader = new FileReader();
     reader.onload = () => {
       const content = typeof reader.result === 'string' ? reader.result : '';
@@ -84,7 +104,7 @@ export function InputPane({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      readTextFile(file);
+      void processResumeFile(file);
     }
     e.target.value = '';
   };
@@ -94,17 +114,17 @@ export function InputPane({
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
     if (file) {
-      readTextFile(file);
+      void processResumeFile(file);
     }
   };
 
   return (
     <section
       aria-label="Target Industry, Job Description, and Resume Input"
-      className="flex flex-col rounded-xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
+      className="flex flex-col rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-5 shadow-[0_1px_3px_rgba(91,33,182,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
     >
       {/* Pane Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-4 dark:border-[#1E293B]">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-purple-100 pb-4 dark:border-[#1E293B]">
         <div className="min-w-0">
           <h1 className="text-base font-semibold text-slate-900 sm:text-lg dark:text-[#F0F6FC]">
             Analysis Inputs
@@ -119,9 +139,9 @@ export function InputPane({
             type="button"
             onClick={onLoadDemo}
             disabled={isLoading}
-            className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 whitespace-nowrap shrink-0 transition-colors duration-150 hover:border-blue-300 hover:bg-blue-50/70 hover:text-[#2563EB] disabled:opacity-50 dark:border-[#2A3A52] dark:bg-[#162033] dark:text-[#E6EDF3] dark:hover:border-blue-400/60 dark:hover:bg-[#1B263B] dark:hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+            className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-purple-200/90 bg-[#F5F2FF] px-3 py-1.5 text-xs font-medium text-slate-700 whitespace-nowrap shrink-0 transition-colors duration-150 hover:border-purple-300 hover:bg-purple-100/70 hover:text-[#6D28D9] disabled:opacity-50 dark:border-[#2A3A52] dark:bg-[#162033] dark:text-[#E6EDF3] dark:hover:border-violet-400/60 dark:hover:bg-[#1B263B] dark:hover:text-violet-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]"
           >
-            <FileCode2 className="h-3.5 w-3.5 text-[#2563EB] dark:text-blue-400" aria-hidden="true" />
+            <FileCode2 className="h-3.5 w-3.5 text-[#6D28D9] dark:text-violet-400" aria-hidden="true" />
             <span>Load Demo Data</span>
           </button>
 
@@ -134,7 +154,7 @@ export function InputPane({
               }}
               disabled={isLoading}
               aria-label="Clear both input fields"
-              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-slate-200 bg-transparent px-2.5 py-1.5 text-xs font-medium text-slate-500 whitespace-nowrap shrink-0 transition-colors duration-150 hover:border-slate-300 hover:text-slate-800 disabled:opacity-50 dark:border-[#1E293B] dark:text-[#94A3B8] dark:hover:border-[#334663] dark:hover:text-[#F0F6FC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-purple-200/80 bg-transparent px-2.5 py-1.5 text-xs font-medium text-slate-500 whitespace-nowrap shrink-0 transition-colors duration-150 hover:border-purple-300 hover:text-slate-800 disabled:opacity-50 dark:border-[#1E293B] dark:text-[#94A3B8] dark:hover:border-[#334663] dark:hover:text-[#F0F6FC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Clear</span>
@@ -159,7 +179,7 @@ export function InputPane({
               htmlFor="industry-select"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-800 dark:text-[#E6EDF3]"
             >
-              <Briefcase className="h-3.5 w-3.5 text-[#2563EB] dark:text-blue-400" aria-hidden="true" />
+              <Briefcase className="h-3.5 w-3.5 text-[#6D28D9] dark:text-violet-400" aria-hidden="true" />
               <span>Target Industry / Job Role</span>
             </label>
             <span className="hidden text-xs text-slate-500 sm:inline dark:text-[#94A3B8]">
@@ -174,7 +194,7 @@ export function InputPane({
               value={selectedIndustry}
               onChange={(e) => onIndustryChange(e.target.value as IndustryId)}
               disabled={isLoading}
-              className="w-full appearance-none rounded-lg border border-slate-200 bg-slate-50/70 py-2.5 pl-3.5 pr-10 text-sm font-medium text-slate-900 transition-colors duration-150 hover:border-slate-300 focus:border-[#2563EB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 disabled:opacity-60 dark:border-[#243247] dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:hover:border-[#334663] dark:focus:border-blue-400 dark:focus:bg-[#0B0F17]"
+              className="w-full appearance-none rounded-lg border border-purple-200/90 bg-[#F5F2FF]/80 py-2.5 pl-3.5 pr-10 text-sm font-medium text-slate-900 transition-colors duration-150 hover:border-purple-300 focus:border-[#6D28D9] focus:bg-[#FCFBFF] focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 disabled:opacity-60 dark:border-[#243247] dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:hover:border-[#334663] dark:focus:border-violet-400 dark:focus:bg-[#0B0F17]"
             >
               {INDUSTRY_OPTIONS.map((opt) => (
                 <option key={opt.id} value={opt.id}>
@@ -183,7 +203,7 @@ export function InputPane({
               ))}
             </select>
             <ChevronDown
-              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-[#64748B]"
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-purple-400 dark:text-[#64748B]"
               aria-hidden="true"
             />
           </div>
@@ -202,10 +222,10 @@ export function InputPane({
                 placeholder="e.g., Supply Chain Management, Corporate Law, Architecture..."
                 aria-invalid={Boolean(validationErrors.targetIndustry)}
                 aria-describedby={validationErrors.targetIndustry ? 'industry-error' : undefined}
-                className={`w-full rounded-lg border bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] ${
+                className={`w-full rounded-lg border bg-[#FCFBFF] px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] ${
                   validationErrors.targetIndustry
                     ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 dark:border-rose-500/70'
-                    : 'border-slate-200 focus:border-[#2563EB] focus:ring-[#2563EB]/20 dark:border-[#243247] dark:focus:border-blue-400'
+                    : 'border-purple-200/90 focus:border-[#6D28D9] focus:ring-[#6D28D9]/20 dark:border-[#243247] dark:focus:border-violet-400'
                 }`}
               />
               {validationErrors.targetIndustry && (
@@ -245,10 +265,10 @@ export function InputPane({
             placeholder="Paste the target job description, responsibilities, and qualifications here..."
             aria-invalid={Boolean(validationErrors.jobDescription)}
             aria-describedby={validationErrors.jobDescription ? 'jd-error' : undefined}
-            className={`w-full resize-y rounded-lg border bg-slate-50/60 px-3.5 py-2.5 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:bg-white focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] dark:focus:bg-[#0B0F17] ${
+            className={`w-full resize-y rounded-lg border bg-[#F5F2FF]/70 px-3.5 py-2.5 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:bg-[#FCFBFF] focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] dark:focus:bg-[#0B0F17] ${
               validationErrors.jobDescription
                 ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 dark:border-rose-500/70 dark:focus:border-rose-400'
-                : 'border-slate-200 focus:border-[#2563EB] focus:ring-[#2563EB]/20 dark:border-[#243247] dark:focus:border-blue-400'
+                : 'border-purple-200/90 focus:border-[#6D28D9] focus:ring-[#6D28D9]/20 dark:border-[#243247] dark:focus:border-violet-400'
             }`}
           />
           {validationErrors.jobDescription && (
@@ -277,11 +297,20 @@ export function InputPane({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                disabled={isLoading}
-                className="inline-flex items-center gap-1.5 font-medium text-[#2563EB] transition-colors duration-150 hover:text-[#1D4ED8] disabled:opacity-50 dark:text-blue-400 dark:hover:text-blue-300 focus-visible:outline-none focus-visible:underline"
+                disabled={isLoading || isParsingFile}
+                className="inline-flex items-center gap-1.5 font-medium text-[#6D28D9] transition-colors duration-150 hover:text-[#5B21B6] disabled:opacity-50 dark:text-violet-400 dark:hover:text-violet-300 focus-visible:outline-none focus-visible:underline"
               >
-                <FileUp className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Upload .txt / .md</span>
+                {isParsingFile ? (
+                  <>
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                    <span>Reading PDF...</span>
+                  </>
+                ) : (
+                  <>
+                    <FileUp className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Upload PDF / .txt / .md</span>
+                  </>
+                )}
               </button>
               <span aria-hidden="true">·</span>
               <span className="font-mono tabular-nums">
@@ -292,23 +321,23 @@ export function InputPane({
             <input
               ref={fileInputRef}
               type="file"
-              accept=".txt,.md,.markdown,text/plain,text/markdown"
+              accept=".pdf,.txt,.md,.markdown,application/pdf,text/plain,text/markdown"
               onChange={handleFileChange}
               className="sr-only"
-              aria-label="Upload resume text file"
+              aria-label="Upload resume PDF or text file"
             />
           </div>
 
           <div
             onDragOver={(e) => {
               e.preventDefault();
-              if (!isLoading) setIsDragging(true);
+              if (!isLoading && !isParsingFile) setIsDragging(true);
             }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={handleDrop}
             className={`relative rounded-lg transition-colors duration-150 ${
               isDragging
-                ? 'ring-2 ring-[#2563EB] ring-offset-2 ring-offset-white dark:ring-offset-[#111827]'
+                ? 'ring-2 ring-[#6D28D9] ring-offset-2 ring-offset-[#FCFBFF] dark:ring-offset-[#111827]'
                 : ''
             }`}
           >
@@ -321,14 +350,14 @@ export function InputPane({
                 setFileError(null);
                 onResumeTextChange(e.target.value);
               }}
-              disabled={isLoading}
-              placeholder="Paste your resume text here, or drag and drop a .txt / .md resume file..."
+              disabled={isLoading || isParsingFile}
+              placeholder="Paste your resume text here, or drag and drop a .pdf, .txt, or .md resume file..."
               aria-invalid={Boolean(validationErrors.resumeText)}
               aria-describedby={validationErrors.resumeText ? 'resume-error' : undefined}
-              className={`w-full resize-y rounded-lg border bg-slate-50/60 px-3.5 py-2.5 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:bg-white focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] dark:focus:bg-[#0B0F17] ${
+              className={`w-full resize-y rounded-lg border bg-[#F5F2FF]/70 px-3.5 py-2.5 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:bg-[#FCFBFF] focus:outline-none focus:ring-2 disabled:opacity-60 dark:bg-[#0B0F17] dark:text-[#E6EDF3] dark:placeholder:text-[#64748B] dark:focus:bg-[#0B0F17] ${
                 validationErrors.resumeText
                   ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 dark:border-rose-500/70 dark:focus:border-rose-400'
-                  : 'border-slate-200 focus:border-[#2563EB] focus:ring-[#2563EB]/20 dark:border-[#243247] dark:focus:border-blue-400'
+                  : 'border-purple-200/90 focus:border-[#6D28D9] focus:ring-[#6D28D9]/20 dark:border-[#243247] dark:focus:border-violet-400'
               }`}
             />
           </div>
@@ -363,7 +392,7 @@ export function InputPane({
               {uploadedFileName && (
                 <>
                   <span
-                    className="max-w-[190px] truncate font-mono text-[#2563EB] dark:text-blue-300"
+                    className="max-w-[190px] truncate font-mono text-[#6D28D9] dark:text-violet-300"
                     title={uploadedFileName}
                   >
                     {uploadedFileName}
@@ -386,12 +415,12 @@ export function InputPane({
           )}
         </div>
 
-        {/* Primary Action Button (Royal Blue #2563EB) */}
+        {/* Primary Action Button (Soft Lavender Theme -> Rich Violet #6D28D9) */}
         <div className="pt-1">
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm whitespace-nowrap transition-all duration-150 hover:bg-[#1D4ED8] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 dark:bg-blue-500 dark:hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-[#111827]"
+            className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg bg-[#6D28D9] px-5 py-3 text-sm font-semibold text-white shadow-sm whitespace-nowrap transition-all duration-150 hover:bg-[#5B21B6] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 dark:bg-violet-500 dark:hover:bg-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FCFBFF] dark:focus-visible:ring-offset-[#111827]"
           >
             {isLoading ? (
               <>

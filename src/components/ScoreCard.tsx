@@ -15,9 +15,9 @@ const TONE_STYLES = {
     icon: CheckCircle2,
   },
   blue: {
-    strokeClass: 'stroke-[#2563EB] dark:stroke-blue-400',
-    text: 'text-[#2563EB] dark:text-blue-400',
-    bar: 'bg-[#2563EB] dark:bg-blue-400',
+    strokeClass: 'stroke-[#6D28D9] dark:stroke-violet-400',
+    text: 'text-[#6D28D9] dark:text-violet-400',
+    bar: 'bg-[#6D28D9] dark:bg-violet-400',
     icon: Info,
   },
   amber: {
@@ -56,9 +56,9 @@ export function ScoreCard({ result }: ScoreCardProps) {
     <section
       id="scorecard"
       aria-labelledby="scorecard-heading"
-      className="scroll-mt-20 rounded-xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
+      className="scroll-mt-20 rounded-xl border border-purple-200/80 bg-[#FCFBFF] p-5 shadow-[0_1px_3px_rgba(91,33,182,0.06)] transition-colors duration-200 sm:p-6 dark:border-[#1E293B] dark:bg-[#111827] dark:shadow-none"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-5 dark:border-[#1E293B]">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-purple-100 pb-5 dark:border-[#1E293B]">
         <div>
           <h2 id="scorecard-heading" className="text-lg font-semibold text-slate-900 dark:text-[#F0F6FC]">
             ATS Match Score
@@ -97,7 +97,7 @@ export function ScoreCard({ result }: ScoreCardProps) {
               cy={size / 2}
               r={radius}
               fill="none"
-              className="stroke-slate-200 dark:stroke-[#1E293B]"
+              className="stroke-purple-200/80 dark:stroke-[#1E293B]"
               strokeWidth={strokeWidth}
             />
             <motion.circle
@@ -141,7 +141,7 @@ export function ScoreCard({ result }: ScoreCardProps) {
                     </span>
                   </div>
                   <div
-                    className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-[#1E293B]"
+                    className="h-1.5 w-full overflow-hidden rounded-full bg-purple-100/90 dark:bg-[#1E293B]"
                     aria-hidden="true"
                   >
                     <motion.div
